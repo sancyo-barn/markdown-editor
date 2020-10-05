@@ -1,53 +1,81 @@
 <template>
-  <div class="container">
-      <div class="markdown-edit">
-        <h2 class="notice">edit</h2>
-        <codemirror />
+  <div>
+    <div class="container toggle-container">
+      <div class="toggle">
+        <button v-on:click="setToggleStatus()">write</button>
+        <button v-on:click="setToggleStatus()">preview</button>
       </div>
-      <div class="markdown-preview">
-        <h2 class="notice">preview</h2>
-        <div class="markdown-output"></div>
+    </div>
+    <div class="container markdown-container">
+      <div class="markdown-editor" v-bind:style="setEditorStyle()">
+        <div class="markdown-write">
+          <h2 class="notice">Write</h2>
+        </div>
+        <div class="markdown-preview">
+          <h2 class="notice">Preview</h2>
+        </div>
       </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-
-}
+  data() {
+    return {
+      isToggleActive: true,
+      styleWriteActive: {
+        transform: "translateY(0)"
+      },
+      stylePreviewActive: {
+        transform: "translateX(-50%)"
+      }
+    };
+  },
+  methods: {
+    setToggleStatus() {
+      this.isToggleActive = !this.isToggleActive;
+    },
+    setEditorStyle() {
+      if (this.isToggleActive) {
+        return this.styleWriteActive;
+      } else if (!this.isToggleActive) {
+        return this.stylePreviewActive;
+      }
+    }
+  }
+};
 </script>
 
 <style>
-/*
 .container {
-  margin: 3rem auto;
-  display: flex;
-  justify-content: space-between;
   max-width: 1100px;
+  position: relative;
+  overflow: hidden;
 }
-.markdown-edit {
-  width: 48%;
+.toggle-container {
+  margin: 3rem auto 0 auto;
+}
+.markdown-container {
+  margin: 0 auto 3rem auto;
+}
+.markdown-editor {
+  display: flex;
+  width: 200%;
+  transform: translateX(-50%);
+  transition: 0.3s;
+  background: #fff;
+}
+.markdown-write {
+  height: 200px;
+  background: #fff;
+  width: 100%;
+  padding: 0.8rem;
 }
 .markdown-preview {
-  width: 48%;
-}
-.notice {
-  background: #323232;
-  color: #fff;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px 8px 0 0 ;
-}
-.markdown-input {
   width: 100%;
-  resize: none;
-  border: none;
-  padding: 1.2rem;
-  min-height: 10rem;
-}
-.markdown-output {
-  width: 100;
   background: #fff;
-  min-height: 10rem;
+  height: 200px;
+  padding: 0.8rem;
 }
-*/
 </style>
